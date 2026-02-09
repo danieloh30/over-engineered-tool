@@ -1,5 +1,3 @@
-package org.acme;
-
 import io.quarkiverse.mcp.server.Tool;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;

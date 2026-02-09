@@ -1,5 +1,3 @@
-package org.acme;
-
 import jakarta.enterprise.context.ApplicationScoped;
 
 // Logic-first approach (The "Right" way)
