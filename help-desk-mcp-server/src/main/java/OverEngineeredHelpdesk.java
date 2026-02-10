@@ -1,27 +1,24 @@
 import io.quarkiverse.mcp.server.Tool;
 import io.quarkiverse.mcp.server.ToolArg;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class OverEngineeredHelpdesk {
-
-    private final Map<String, String> ticketDb = Map.of(
-            "TKT-101", "User cannot login to VPN. Potential LDAP sync issue.",
-            "TKT-102", "Production DB is slow. Check the connection pool.",
-            "TKT-103", "DevNexus speaker portal password reset request."
-    );
 
     /**
      * This is the "Bad" tool: Artificial latency and complex return types
      * for a simple lookup.
      */
     @Tool(description = "Retrieves ticket details from the legacy mainframe system")
+    @Transactional
     public String getTicketDetails(@ToolArg(description = "The ID of the ticket, e.g. TKT-101") String id) {
         simulateHeavyReasoning(); // The "Over-engineering" part
 
-        if (!ticketDb.containsKey(id)) {
+        Ticket ticket = Ticket.findByTicketId(id);
+        if (ticket == null) {
             return "ERROR_SYSTEM_BUSY_OR_NOT_FOUND";
         }
 
@@ -35,15 +32,18 @@ public class OverEngineeredHelpdesk {
                     "content": "%s"
                 }
             }
-            """.formatted(id, ticketDb.get(id));
+            """.formatted(ticket.ticketId, ticket.content);
     }
 
     /**
      * Demonstrating a "Resource" - The LLM can browse these logs.
      */
     @Tool(description = "List all active ticket IDs")
+    @Transactional
     public List<String> listTickets() {
-        return List.copyOf(ticketDb.keySet());
+        return Ticket.<Ticket>listAll().stream()
+                .map(ticket -> ticket.ticketId)
+                .collect(Collectors.toList());
     }
 
     private void simulateHeavyReasoning() {
