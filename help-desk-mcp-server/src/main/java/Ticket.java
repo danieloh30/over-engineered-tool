@@ -25,5 +25,3 @@ public class Ticket extends PanacheEntity {
         return find("ticketId", ticketId).firstResult();
     }
 }
-
-// Made with Bob
