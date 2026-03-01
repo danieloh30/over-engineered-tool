@@ -53,6 +53,12 @@ You can then execute your native executable with: `./target/help-desk-agent-1.0.
 
 If you want to learn more about building native executables, please consult <https://quarkus.io/guides/maven-tooling>.
 
+## Prompt
+
+```aiignore
+Prompt: List all tickets and tell me which one sounds most urgent.
+```
+
 ## Related Guides
 
 - LangChain4j OpenAI ([guide](https://docs.quarkiverse.io/quarkus-langchain4j/dev/index.html)): Provides the basic integration with LangChain4j
