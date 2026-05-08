@@ -1,4 +1,4 @@
-# Frontend - MCP Micro-Server Demo UI
+# Frontend - Micro-MCP Server Demo UI
 
 A React-based educational interface that demonstrates the contrast between over-engineered and clean MCP server architectures.
 

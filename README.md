@@ -1,4 +1,4 @@
-# MCP Micro-Server Architecture Demo
+# Micro-MCP Server Architecture Demo
 
 ![Demo Architecture](assets/demo-arch.png)
 
