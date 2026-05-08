@@ -1,217 +1,486 @@
 # MCP Micro-Server Architecture Demo
 
-A demonstration showing how MCP's micro-server architecture helps **avoid over-engineering** in AI-powered applications.
+> **A hands-on demonstration showing how MCP's micro-server architecture helps avoid over-engineering in AI-powered applications.**
 
-## 🎯 Demo Concept
+Experience the difference between over-engineered and clean MCP server design through an interactive web interface.
 
-This project showcases the **contrast** between two approaches:
+---
 
-### ❌ The Over-Engineered Server (What You're Using Now)
-- Artificial 2-second delays simulating "enterprise mainframe"
-- Bloated JSON responses with unnecessary metadata
-- High latency and token waste
-- Poor user experience and higher costs
+## 🚀 Quick Start (3 Steps)
 
-### ✅ The Clean MCP SDK (Best Practice)
-- Optimized response times (<100ms)
-- Minimal, clean JSON responses
-- Low latency and efficient token usage
-- Better UX and lower costs
+### Prerequisites
 
-## 💡 The "Aha!" Moment
+Before starting, ensure you have:
 
-When you experience the intentional delays and inefficiencies in this demo, you'll understand why **MCP's micro-server architecture** matters:
+| Requirement | Version | Check Command |
+|------------|---------|---------------|
+| Java | 17+ (25 recommended) | `java -version` |
+| Node.js | 20+ | `node --version` |
+| OpenAI API Key | - | `echo $OPENAI_API_KEY` |
 
-- **Focused servers** doing one thing well
-- **Standardized interfaces** for AI tool discovery
-- **Performance-first** design with Quarkus
-- **Cost optimization** through clean responses
+### Step 1: Set OpenAI API Key
 
-## Features
+```bash
+export OPENAI_API_KEY=your-api-key-here
+```
 
-- 🤖 **AI Agent**: Natural language interface using LangChain4j and OpenAI
-- 🔌 **MCP Integration**: Model Context Protocol for tool discovery
-- ⚡ **Quarkus**: Supersonic Java framework
-- ⚛️ **React Frontend**: Modern UI showing the before/after comparison
-- 🎓 **Educational**: Visual comparison of good vs. bad practices
+### Step 2: Start the MCP Server
 
-## Prerequisites
-
-1. **Java 25** (or compatible JDK)
-2. **Node.js 20+** (for frontend)
-3. **OpenAI API Key**: Set as environment variable
-4. **Running MCP Server**: The help-desk-mcp-server (intentionally over-engineered)
-
-## Quick Start
-
-### 1. Start the Over-Engineered MCP Server
-
-In a separate terminal:
+Open a **new terminal window** and run:
 
 ```bash
 cd ../help-desk-mcp-server
 ./mvnw quarkus:dev
 ```
 
-This starts the intentionally bad server on port 8081 with:
-- 2-second artificial delays
-- Bloated JSON responses
-- Poor performance patterns
+✅ **Wait for**: `Listening on: http://localhost:8081`
 
-### 2. Set Your OpenAI API Key
+> ⚠️ **Note**: This MCP server is intentionally over-engineered with 2-second delays to demonstrate bad practices.
 
-```bash
-export OPENAI_API_KEY=your-api-key-here
-```
+### Step 3: Start the Demo Application
 
-### 3. Start Development Mode
+In your **original terminal**, run:
 
 ```bash
 ./dev.sh
 ```
 
-This starts:
-- Quarkus backend on http://localhost:8080  
-- React frontend on http://localhost:5173 (with HMR)
+This will start:
+- 🔹 Quarkus backend → `http://localhost:8080`
+- 🔹 React frontend → `http://localhost:5173`
 
-**Open your browser to http://localhost:5173**
+✅ **Open in browser**: http://localhost:5173
 
-## Using the Application
+---
 
-1. Open http://localhost:5173
-2. Read the comparison between over-engineered and clean approaches
-3. Try the example queries:
-   - "List all tickets and tell me which one sounds most urgent"
-   - "Get details for ticket TKT-101"
-4. **Notice the 2-second delay** - this is intentional!
-5. See how the bloated responses waste tokens and time
+## 🎯 What You'll See
 
-## What You'll Learn
+### The Demo Interface
 
-### The Problem (Current Implementation)
-- ⏰ Artificial delays hurt user experience
-- 📊 Bloated JSON wastes tokens and bandwidth
-- 🐌 High latency increases costs
-- 💸 Inefficient design = higher cloud bills
+When you open the application, you'll see:
 
-### The Solution (MCP Best Practices)
-- 🏗️ **Micro-server architecture**: Small, focused servers
-- 🔌 **Standardized interface**: MCP SDK for clean tool definitions
-- ⚡ **Performance first**: Quarkus + MCP = fast execution
-- 💰 **Cost optimization**: Clean responses save money
+1. **"Aha!" Moment Banner** - Understanding when MCP architecture pays off
+2. **Side-by-Side Comparison**:
+   - **Left (Red)**: Over-Engineered Server - what we have now (intentionally bad)
+   - **Right (Green)**: Clean MCP SDK - best practice approach
+3. **Interactive Demo** - Try queries and experience the 2-second delay
+4. **Educational Sections** - Learn MCP benefits and best practices
 
-## Architecture
+### Try These Queries
 
-### Current Flow (Intentionally Bad)
+Click the examples or type your own:
+
 ```
-User Query
-    ↓
-React UI (port 5173)
-    ↓
-Quarkus REST API (port 8080)
-    ↓
-LangChain4j AI Agent
-    ↓
-OpenAI GPT Model
-    ↓
-MCP Client
-    ↓
-HTTP/SSE Transport
-    ↓
-Over-Engineered MCP Server (port 8081)
-    ↓
-⏰ 2-SECOND ARTIFICIAL DELAY
-    ↓
-📊 BLOATED JSON RESPONSE
-    ↓
-Database (finally!)
+"List all tickets and tell me which one sounds most urgent"
+"Get details for ticket TKT-101"
+"What tickets are available?"
+"Analyze all tickets and prioritize them by severity"
 ```
 
-### What It Should Be (Clean MCP)
+**You'll notice**:
+- ⏰ Intentional 2-second delay
+- 🐌 Slow loading stages
+- 💸 Token-wasting bloated responses
+
+---
+
+## 🎓 Demo Concept
+
+This demo teaches through **contrast and experience**:
+
+### ❌ The Over-Engineered Server (Current Implementation)
+
+What you're experiencing:
+- **2-second artificial delays** simulating "enterprise mainframe"
+- **Bloated JSON responses** with unnecessary metadata
+- **High latency** and token waste
+- **Poor UX** and higher costs
+
+### ✅ The Clean MCP SDK (Best Practice)
+
+What it should be:
+- **<100ms response times** with optimized queries
+- **Minimal JSON** with only essential data
+- **Low latency** and efficient token usage
+- **Better UX** and lower costs
+
+### 💡 The Learning Outcome
+
+By experiencing the pain points firsthand, you'll understand:
+- Why **micro-server architecture** matters
+- How **MCP standardizes** AI-tool communication
+- The **real cost** of over-engineering
+- Best practices for **production-ready** MCP servers
+
+---
+
+## 📁 Project Structure
+
 ```
-User Query → Quarkus → AI Agent → Clean MCP Server → Database
-                                        ↓
-                                  <100ms response
-                                  Minimal JSON
-                                  Optimized
+help-desk-agent/
+├── src/
+│   ├── main/
+│   │   ├── java/
+│   │   │   ├── HelpdeskAgent.java      # AI agent with MCP tools
+│   │   │   └── AgentResource.java      # REST endpoint
+│   │   ├── resources/
+│   │   │   └── application.properties  # Configuration
+│   │   └── webui/                      # React frontend
+│   │       ├── src/
+│   │       │   ├── App.jsx            # Main UI component
+│   │       │   ├── App.css            # Styling
+│   │       │   └── main.jsx           # Entry point
+│   │       ├── package.json
+│   │       └── vite.config.js         # Vite configuration
+├── dev.sh                              # Development startup script
+├── build-frontend.sh                   # Frontend build script
+├── pom.xml                             # Maven configuration
+├── README.md                           # This file
+├── QUICKSTART.md                       # Quick start guide
+└── FRONTEND.md                         # Frontend documentation
 ```
 
-## Development
+---
 
-### Frontend Development
+## 🛠️ Development
 
-The React app demonstrates the comparison visually:
+### Running Individual Components
 
-```bash
-cd src/main/webui
-npm run dev
-```
-
-The UI includes:
-- Side-by-side comparison cards (bad vs. good)
-- Visual loading states showing the delays
-- Educational content explaining MCP benefits
-- "Aha!" moment banner
-
-### Backend Development
-
+#### Backend Only
 ```bash
 ./mvnw quarkus:dev
 ```
+Access at: http://localhost:8080
 
-Quarkus dev mode provides:
-- Live reload on code changes
-- Dev UI at http://localhost:8080/q/dev/
-- Fast iteration
-
-## Production Build
-
-### Build Frontend
+#### Frontend Only
 ```bash
+cd src/main/webui
+npm install  # First time only
+npm run dev
+```
+Access at: http://localhost:5173
+
+#### Both (Recommended)
+```bash
+./dev.sh
+```
+Starts both services automatically.
+
+### Making Changes
+
+**Backend Changes** (Live Reload):
+- Edit Java files in `src/main/java/`
+- Quarkus automatically reloads
+- No restart needed
+
+**Frontend Changes** (Hot Module Replacement):
+- Edit React files in `src/main/webui/src/`
+- Vite instantly updates browser
+- No page refresh needed
+
+### Quarkus Dev UI
+
+While backend is running, access: http://localhost:8080/q/dev/
+
+Features:
+- 🔍 Endpoint explorer
+- ⚙️ Configuration editor  
+- 🤖 LangChain4j chat playground
+- 📚 OpenAPI/Swagger UI
+
+---
+
+## 📦 Production Build
+
+### Full Build Process
+
+```bash
+# 1. Build frontend
 ./build-frontend.sh
-```
 
-### Package Application
-```bash
-./mvnw package
-```
+# 2. Package application
+./mvnw clean package
 
-### Run
-```bash
+# 3. Run the JAR
 java -jar target/quarkus-app/quarkus-run.jar
 ```
 
-Access at: http://localhost:8080
+Application runs on: http://localhost:8080 (frontend embedded)
 
-### Native Executable
+### Native Executable (Optional)
+
+For fastest startup (<100ms):
+
 ```bash
+./build-frontend.sh
 ./mvnw package -Dnative -Dquarkus.native.container-build=true
 ./target/help-desk-agent-1.0.0-SNAPSHOT-runner
 ```
 
-## Configuration
+---
 
-In `application.properties`:
+## 🏗️ Architecture
+
+### Current Flow (Intentionally Over-Engineered)
+
+```
+┌─────────┐
+│ Browser │ User asks: "List all tickets"
+└────┬────┘
+     │
+     ▼
+┌─────────────────────┐
+│ React UI (5173)     │ Submit query
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐
+│ Quarkus REST (8080) │ /agent/ask endpoint
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐
+│ LangChain4j Agent   │ Process with AI
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐
+│ OpenAI GPT-5-mini   │ Generate plan
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐
+│ MCP Client          │ Discover tools
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐
+│ MCP Server (8081)   │ ⚠️ Execute with 2s delay
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐
+│ 📊 Bloated JSON     │ Unnecessary metadata
+└─────────┬───────────┘
+          │
+          ▼
+┌─────────────────────┐
+│ Database            │ Finally get data!
+└─────────────────────┘
+
+Total Time: ~2-3 seconds
+```
+
+### Clean MCP Approach (What It Should Be)
+
+```
+┌─────────┐
+│ Browser │
+└────┬────┘
+     ▼
+┌──────────────┐
+│ Quarkus App  │
+└─────┬────────┘
+      ▼
+┌──────────────┐
+│ AI Agent     │
+└─────┬────────┘
+      ▼
+┌──────────────┐
+│ Clean MCP    │ No delays, minimal JSON
+└─────┬────────┘
+      ▼
+┌──────────────┐
+│ Database     │
+└──────────────┘
+
+Total Time: <100ms
+```
+
+---
+
+## ⚙️ Configuration
+
+### Environment Variables
+
+```bash
+# Required
+export OPENAI_API_KEY=your-api-key-here
+
+# Optional - change ports if needed
+export QUARKUS_HTTP_PORT=8080
+```
+
+### Key Settings (application.properties)
 
 ```properties
-# OpenAI Configuration  
+# OpenAI Configuration
 quarkus.langchain4j.openai.api-key=${OPENAI_API_KEY}
 quarkus.langchain4j.openai.chat-model.model-name=gpt-5-mini
+quarkus.langchain4j.openai.chat-model.temperature=1.0
 
 # MCP Server Connection (intentionally over-engineered)
 quarkus.langchain4j.mcp.helpdesk.transport-type=http
 quarkus.langchain4j.mcp.helpdesk.url=http://localhost:8081/mcp/sse/
+
+# HTTP
+quarkus.http.enable-compression=true
 ```
 
-## Tech Stack
+---
 
-- 🔌 **MCP SDK**: Model Context Protocol for standardized AI-tool communication
-- ⚡ **Quarkus**: Supersonic subatomic Java framework
-- 🤖 **LangChain4j**: Type-safe AI development in Java
-- 🧠 **OpenAI**: GPT models for intelligence
-- ⚛️ **React + Vite**: Modern frontend with HMR
+## 🐛 Troubleshooting
 
-## Key Takeaways
+### Problem: "Connection refused" to MCP server
+
+**Symptom**: Error connecting to `http://localhost:8081`
+
+**Solution**: 
+```bash
+# Start MCP server first
+cd ../help-desk-mcp-server
+./mvnw quarkus:dev
+```
+
+Wait for `Listening on: http://localhost:8081` before starting the agent.
+
+---
+
+### Problem: "OPENAI_API_KEY not set"
+
+**Symptom**: Error about missing API key
+
+**Solution**:
+```bash
+export OPENAI_API_KEY=sk-your-actual-key-here
+```
+
+Verify with: `echo $OPENAI_API_KEY`
+
+---
+
+### Problem: Port already in use
+
+**Symptom**: `Port 8080 already in use`
+
+**Solution 1** - Kill existing process:
+```bash
+# Find process on port 8080
+lsof -ti:8080 | xargs kill -9
+
+# Or for port 5173
+lsof -ti:5173 | xargs kill -9
+```
+
+**Solution 2** - Change port:
+Edit `application.properties`:
+```properties
+quarkus.http.port=8090
+```
+
+---
+
+### Problem: Frontend won't build
+
+**Symptom**: Build errors or missing dependencies
+
+**Solution**:
+```bash
+cd src/main/webui
+rm -rf node_modules package-lock.json
+npm install
+npm run build
+```
+
+---
+
+### Problem: Changes not appearing
+
+**Symptom**: Code changes don't reflect in browser
+
+**Backend Solution**:
+```bash
+# Restart Quarkus dev mode
+Ctrl+C
+./mvnw quarkus:dev
+```
+
+**Frontend Solution**:
+```bash
+# Hard refresh browser
+Cmd+Shift+R (Mac)
+Ctrl+Shift+R (Windows/Linux)
+```
+
+---
+
+### Problem: "Module not found" errors
+
+**Symptom**: Import errors in JavaScript
+
+**Solution**:
+```bash
+cd src/main/webui
+npm install
+```
+
+Make sure you're in the correct directory.
+
+---
+
+## 🧪 Testing the Demo
+
+### Verify Setup
+
+1. **Check MCP Server**:
+   ```bash
+   curl http://localhost:8081/health
+   ```
+   Should return: `OK` or health status
+
+2. **Check Quarkus Backend**:
+   ```bash
+   curl "http://localhost:8080/agent/ask?query=test"
+   ```
+   Should return a response (with ~2s delay)
+
+3. **Check Frontend**:
+   Open http://localhost:5173 in browser
+
+### Expected Behavior
+
+When you submit a query:
+1. **Immediate**: Loading spinner appears
+2. **~0.5s**: Loading message changes
+3. **~2s**: Response received (due to intentional MCP server delay)
+4. **Result**: AI agent's answer displayed
+
+---
+
+## 📚 Tech Stack
+
+| Technology | Purpose | Documentation |
+|-----------|---------|--------------|
+| **MCP SDK** | Model Context Protocol for AI-tool communication | [modelcontextprotocol.io](https://modelcontextprotocol.io) |
+| **Quarkus** | Supersonic Java framework | [quarkus.io](https://quarkus.io/) |
+| **LangChain4j** | Type-safe AI development in Java | [langchain4j.dev](https://github.com/langchain4j/langchain4j) |
+| **OpenAI** | GPT models for intelligence | [platform.openai.com](https://platform.openai.com/) |
+| **React** | UI library | [react.dev](https://react.dev) |
+| **Vite** | Frontend build tool | [vitejs.dev](https://vitejs.dev/) |
+
+---
+
+## 📖 Additional Documentation
+
+- **[QUICKSTART.md](QUICKSTART.md)** - 5-minute getting started guide
+- **[FRONTEND.md](FRONTEND.md)** - Frontend architecture and customization
+- **[Quarkus LangChain4j](https://docs.quarkiverse.io/quarkus-langchain4j/dev/index.html)** - Official extension docs
+
+---
+
+## 🎯 Key Takeaways
+
+After experiencing this demo, you'll understand:
 
 ✅ **MCP prevents over-engineering** by encouraging focused, single-purpose servers
 
@@ -223,31 +492,46 @@ quarkus.langchain4j.mcp.helpdesk.url=http://localhost:8081/mcp/sse/
 
 ✅ **Better developer experience** - simple, maintainable code vs. complex architectures
 
-## Why This Demo?
+---
 
-This demo intentionally shows **BAD practices** in the MCP server to highlight:
+## 💡 Why This Demo Exists
 
-1. **What NOT to do**: Artificial delays, bloated responses, complexity
-2. **What MCP solves**: Clean interfaces, focused servers, optimized performance
-3. **Real-world impact**: User experience, costs, maintainability
+This demo intentionally implements **bad practices** to teach through experience:
 
-By experiencing the pain points firsthand, developers understand the value of MCP's micro-server architecture.
+1. **Pain Points**: Feel the 2-second delay, see the bloated responses
+2. **Contrast**: Compare bad vs. good side-by-side
+3. **Understanding**: Learn why MCP's micro-server architecture matters
+4. **Application**: Take these lessons to your own projects
 
-## Learn More
-
-- [Model Context Protocol](https://modelcontextprotocol.io)
-- [Quarkus](https://quarkus.io/)
-- [LangChain4j](https://github.com/langchain4j/langchain4j)
-- [Quarkus LangChain4j Extension](https://docs.quarkiverse.io/quarkus-langchain4j/dev/index.html)
-
-## Quarkus Dev UI
-
-When running in dev mode, visit http://localhost:8080/q/dev/ for:
-- Endpoint listing
-- Configuration editor
-- LangChain4j chat playground
-- OpenAPI/Swagger UI
+**Remember**: What you're experiencing is what to **AVOID**. Use MCP's micro-server architecture for clean, efficient AI-powered applications!
 
 ---
 
-**💡 Remember**: This demo shows what to AVOID. Use MCP's micro-server architecture for clean, efficient AI-powered applications!
+## 🤝 Contributing
+
+Found an issue or want to improve the demo?
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+---
+
+## 📄 License
+
+This demo is part of the Red Hat Summit 2026 conference materials.
+
+---
+
+## 🆘 Need Help?
+
+- **GitHub Issues**: Report bugs or request features
+- **Quarkus Community**: [quarkus.io/community](https://quarkus.io/community/)
+- **MCP Resources**: [modelcontextprotocol.io](https://modelcontextprotocol.io)
+
+---
+
+**Happy Learning!** 🚀
+
+Experience the over-engineering, understand the solution, build better MCP servers.
