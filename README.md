@@ -1,6 +1,6 @@
 # Micro-MCP Server Architecture Demo
 
-![Demo Architecture](assets/demo-arch.png)
+![Demo Architecture](assets/demo-scenario.png)
 
 > **A hands-on demonstration showing how MCP's micro-server architecture helps avoid over-engineering in AI-powered applications.**
 
@@ -14,11 +14,11 @@ Experience the difference between over-engineered and clean MCP server design th
 
 Before starting, ensure you have:
 
-| Requirement | Version | Check Command |
-|------------|---------|---------------|
-| Java | 17+ (25 recommended) | `java -version` |
-| Node.js | 20+ | `node --version` |
-| OpenAI API Key | - | `echo $OPENAI_API_KEY` |
+| Requirement | Version     | Check Command |
+|------------|-------------|---------------|
+| Java | 25+         | `java -version` |
+| Node.js | 20+         | `node --version` |
+| OpenAI API Key | -           | `echo $OPENAI_API_KEY` |
 
 ### Step 1: Set OpenAI API Key
 
