@@ -4,27 +4,67 @@
   box-sizing: border-box;
 }
 
+:root {
+  --primary: #667eea;
+  --secondary: #764ba2;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --dark: #2d3748;
+  --light: #f7fafc;
+  --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --bg-main: linear-gradient(180deg, #f8f9fa 0%, #e9ecef 100%);
+  --card-bg: #ffffff;
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --text-muted: #888888;
+  --border-color: #e2e8f0;
+  --input-bg: #ffffff;
+  --example-bg: #f8f9fa;
+  --example-border: #dee2e6;
+  --example-hover: #e9ecef;
+  --header-bg: linear-gradient(135deg, #1e3a8a 0%, #3b0764 100%);
+  --footer-bg: #2d3748;
+  --problem-bg: #fef2f2;
+  --solution-bg: #f0fdf4;
+  --response-bg: #f8f9fa;
+  --takeaway-bg: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+  --tech-bg: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
+}
+
+[data-theme="dark"] {
+  --bg-main: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+  --card-bg: #1e293b;
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --border-color: #334155;
+  --input-bg: #0f172a;
+  --example-bg: #0f172a;
+  --example-border: #334155;
+  --example-hover: #334155;
+  --header-bg: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+  --footer-bg: #0f172a;
+  --problem-bg: #1c1917;
+  --solution-bg: #052e16;
+  --response-bg: #0f172a;
+  --takeaway-bg: linear-gradient(135deg, #1e1b4b 0%, #172554 100%);
+  --tech-bg: linear-gradient(135deg, #1e1b4b 0%, #2e1065 100%);
+}
+
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: var(--bg-gradient);
   min-height: 100vh;
-  color: #333;
+  color: var(--text-primary);
 }
 
 code {
   font-family: 'Courier New', Courier, monospace;
-}
-
-:root {
-  --primary: #667eea;
-  --secondary: #764ba2;
-  --success: #48bb78;
-  --warning: #f6ad55;
-  --danger: #f56565;
-  --dark: #2d3748;
-  --light: #f7fafc;
 }

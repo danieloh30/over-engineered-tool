@@ -8,7 +8,7 @@ Experience the difference between over-engineered and clean MCP server design th
 
 ---
 
-## 🚀 Quick Start (3 Steps)
+## 🚀 Quick Start
 
 ### Prerequisites
 
@@ -18,17 +18,35 @@ Before starting, ensure you have:
 |------------|-------------|---------------|
 | Java | 25+         | `java -version` |
 | Node.js | 20+         | `node --version` |
+| Podman or Docker | Running     | `podman info` or `docker info` |
 | OpenAI API Key | -           | `echo $OPENAI_API_KEY` |
 
-### Step 1: Set OpenAI API Key
+> Podman or Docker is required for PostgreSQL via Quarkus DevServices (auto-provisioned).
+
+Run the pre-demo checklist to verify everything:
+
+```bash
+./check-demo.sh
+```
+
+### Option A: One-Command Start (Recommended)
+
+```bash
+export OPENAI_API_KEY=your-api-key-here
+./start-demo.sh
+```
+
+This starts all three services (MCP server, agent backend, frontend) with health-check waits and opens the demo at http://localhost:5173.
+
+### Option B: Manual Start (3 Terminals)
+
+**Step 1**: Set OpenAI API Key
 
 ```bash
 export OPENAI_API_KEY=your-api-key-here
 ```
 
-### Step 2: Start the MCP Server
-
-Open a **new terminal window** and run:
+**Step 2**: Start the MCP Server (Terminal 1)
 
 ```bash
 cd help-desk-mcp-server
@@ -37,11 +55,7 @@ cd help-desk-mcp-server
 
 ✅ **Wait for**: `Listening on: http://localhost:8081`
 
-> ⚠️ **Note**: This MCP server is intentionally over-engineered with 2-second delays to demonstrate bad practices.
-
-### Step 3: Start the Demo Application
-
-In your **original terminal**, run:
+**Step 3**: Start the Demo Application (Terminal 2)
 
 ```bash
 cd help-desk-agent
@@ -62,28 +76,33 @@ This will start:
 
 When you open the application, you'll see:
 
-1. **"Aha!" Moment Banner** - Understanding when MCP architecture pays off
-2. **Side-by-Side Comparison**:
+1. **Status Indicators** - Green/red dots in the header showing MCP Server, Agent, and OpenAI connectivity
+2. **Dark Mode Toggle** - Switch to presentation mode for stage visibility (persisted across sessions)
+3. **Side-by-Side Comparison Cards**:
    - **Left (Red)**: Over-Engineered Server - what we have now (intentionally bad)
    - **Right (Green)**: Clean MCP SDK - best practice approach
-3. **Interactive Demo** - Try queries and experience the 2-second delay
-4. **Educational Sections** - Learn MCP benefits and best practices
+4. **Interactive Demo** with two modes:
+   - **Single Query** - Send a query through the over-engineered path with a live elapsed-time counter
+   - **Compare Both** - Run both over-engineered and clean paths side-by-side with timing bars and speedup ratio
+5. **Educational Sections** - MCP solution cards, tech stack, and key takeaways
 
 ### Try These Queries
 
 Click the examples or type your own:
 
-```
-"List all tickets and tell me which one sounds most urgent"
-"Get details for ticket TKT-101"
-"What tickets are available?"
-"Analyze all tickets and prioritize them by severity"
-```
+| Type | Query |
+|------|-------|
+| Basic Lookup | `Get details for ticket TKT-101` |
+| List & Prioritize | `List all tickets and prioritize them by severity` |
+| Search | `Search for tickets related to security issues` |
+| Multi-step | `Find the most urgent ticket and suggest resolution steps` |
+| Bulk Analysis | `Analyze all tickets, categorize them, and recommend team assignments` |
 
 **You'll notice**:
-- ⏰ Intentional 2-second delay
-- 🐌 Slow loading stages
+- ⏰ Live millisecond counter showing intentional delays (2-3 seconds)
+- 🐌 Rotating stage messages during loading
 - 💸 Token-wasting bloated responses
+- ⚡ In Compare mode: dramatic speed difference with a "Nx faster" badge
 
 ---
 
@@ -94,18 +113,18 @@ This demo teaches through **contrast and experience**:
 ### ❌ The Over-Engineered Server (Current Implementation)
 
 What you're experiencing:
-- **2-second artificial delays** simulating "enterprise mainframe"
-- **Bloated JSON responses** with unnecessary metadata
-- **High latency** and token waste
-- **Poor UX** and higher costs
+- **2-3 second artificial delays** simulating "enterprise mainframe" overhead
+- **Bloated JSON responses** with nested metadata, pagination, and audit trails
+- **Over-verbose tool descriptions** that confuse the AI agent
+- **5 over-engineered tools**: `getTicketDetails` (2s delay), `listTickets`, `searchTickets` (3s delay), `getTicketHistory` (1.5s delay)
 
 ### ✅ The Clean MCP SDK (Best Practice)
 
-What it should be:
-- **<100ms response times** with optimized queries
-- **Minimal JSON** with only essential data
-- **Low latency** and efficient token usage
-- **Better UX** and lower costs
+What it should be (and now implemented for comparison):
+- **<100ms response times** with direct database access
+- **Minimal, clean responses** with only essential data
+- **Concise tool descriptions** the AI understands immediately
+- **3 clean tools**: `fetchTicket`, `fetchAllTickets`, `findTickets`
 
 ### 💡 The Learning Outcome
 
@@ -121,32 +140,37 @@ By experiencing the pain points firsthand, you'll understand:
 
 ```
 over-engineered-tool/
-├── help-desk-mcp-server/           # MCP server (intentionally over-engineered)
+├── start-demo.sh                   # One-command demo launcher
+├── check-demo.sh                   # Pre-demo checklist script
+├── .env.example                    # Environment variable reference
+│
+├── help-desk-mcp-server/           # MCP server (both paths)
 │   ├── src/main/java/
-│   │   ├── OverEngineeredHelpdesk.java  # MCP tools with 2s delay
-│   │   ├── Ticket.java                  # JPA entity
-│   │   └── HelpdeskService.java         # Business logic
+│   │   ├── OverEngineeredHelpdesk.java  # "Bad" tools with delays + bloated JSON
+│   │   ├── HelpdeskService.java         # "Clean" business logic (direct DB)
+│   │   ├── HelpdeskMcpWrapper.java      # "Clean" MCP tool wrappers
+│   │   └── Ticket.java                  # JPA entity
+│   ├── src/main/resources/
+│   │   └── import.sql                   # 8 demo tickets
 │   └── pom.xml
 │
 └── help-desk-agent/                # AI agent + frontend
-    ├── src/
-    │   ├── main/
-    │   │   ├── java/
-    │   │   │   ├── HelpdeskAgent.java      # AI agent with MCP tools
-    │   │   │   └── AgentResource.java      # REST endpoint
-    │   │   ├── resources/
-    │   │   │   └── application.properties  # Configuration
-    │   │   └── webui/                      # React frontend
-    │   │       ├── src/
-    │   │       │   ├── App.jsx            # Main UI component
-    │   │       │   ├── App.css            # Styling
-    │   │       │   └── main.jsx           # Entry point
-    │   │       ├── package.json
-    │   │       └── vite.config.js         # Vite configuration
-    ├── dev.sh                              # Development startup script
-    ├── build-frontend.sh                   # Frontend build script
-    ├── pom.xml                             # Maven configuration
-    └── FRONTEND.md                         # Frontend documentation
+    ├── src/main/java/
+    │   ├── HelpdeskAgent.java           # Over-engineered AI agent
+    │   ├── CleanHelpdeskAgent.java      # Clean AI agent (for comparison)
+    │   ├── AgentResource.java           # /agent/ask endpoint (JSON + timing)
+    │   ├── ComparisonResource.java      # /agent/compare endpoint (side-by-side)
+    │   └── HealthResource.java          # /health/status endpoint
+    ├── src/main/resources/
+    │   └── application.properties       # Configuration
+    ├── src/main/webui/                  # React frontend
+    │   └── src/
+    │       ├── App.jsx                  # UI with comparison mode + dark mode
+    │       ├── App.css                  # Styling with dark theme
+    │       └── index.css                # CSS variables (light/dark)
+    ├── dev.sh                           # Development startup script
+    ├── build-frontend.sh                # Frontend build script
+    └── FRONTEND.md                      # Frontend documentation
 ```
 
 ---
@@ -179,6 +203,10 @@ Access at: http://localhost:5173
 
 #### Everything (Recommended)
 ```bash
+# Option 1: Single command
+./start-demo.sh
+
+# Option 2: Manual (two terminals)
 # Terminal 1: MCP Server
 cd help-desk-mcp-server
 ./mvnw quarkus:dev
@@ -367,13 +395,34 @@ quarkus.langchain4j.openai.api-key=${OPENAI_API_KEY}
 quarkus.langchain4j.openai.chat-model.model-name=gpt-5-mini
 quarkus.langchain4j.openai.chat-model.temperature=1.0
 
-# MCP Server Connection (intentionally over-engineered)
+# MCP Server Connection (both tool sets exposed from same server)
 quarkus.langchain4j.mcp.helpdesk.transport-type=http
 quarkus.langchain4j.mcp.helpdesk.url=http://localhost:8081/mcp/sse/
 
 # HTTP
 quarkus.http.enable-compression=true
 ```
+
+### API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/agent/ask?query=...` | GET | Send a query through the over-engineered path. Returns JSON with `response`, `durationMs`, `error`. |
+| `/agent/compare?query=...` | GET | Run both paths and return timing comparison with `speedup` ratio. |
+| `/health/status` | GET | Check connectivity of MCP Server, OpenAI, and Agent. |
+
+### Demo Tickets (8 total)
+
+| Ticket ID | Scenario |
+|-----------|----------|
+| TKT-101 | VPN login / LDAP sync issue |
+| TKT-102 | Production DB slow / connection pool |
+| TKT-103 | Speaker portal password reset |
+| TKT-104 | Email server 503 / DNS propagation |
+| TKT-105 | New employee onboarding / access requests |
+| TKT-106 | Data export timeout / large CSV |
+| TKT-107 | Security alert / unusual login pattern |
+| TKT-108 | Kubernetes pod CrashLoopBackOff / OOM |
 
 ---
 
@@ -469,28 +518,46 @@ Ctrl+Shift+R (Windows/Linux)
 
 ### Verify Setup
 
-1. **Check MCP Server**:
-   ```bash
-   curl http://localhost:8081/health
-   ```
-   Should return: `OK` or health status
+Run the pre-demo checklist:
+```bash
+./check-demo.sh
+```
 
-2. **Check Quarkus Backend**:
-   ```bash
-   curl "http://localhost:8080/agent/ask?query=test"
-   ```
-   Should return a response (with ~2s delay)
+Or verify manually:
 
-3. **Check Frontend**:
-   Open http://localhost:5173 in browser
+1. **Check Health Status**:
+   ```bash
+   curl http://localhost:8080/health/status
+   ```
+   Should return JSON with `mcpServer`, `openai`, and `agent` status.
+
+2. **Check Agent (Single Query)**:
+   ```bash
+   curl "http://localhost:8080/agent/ask?query=List+all+tickets"
+   ```
+   Returns JSON: `{"response": "...", "durationMs": 5234, "error": null}`
+
+3. **Check Comparison**:
+   ```bash
+   curl "http://localhost:8080/agent/compare?query=Get+details+for+TKT-101"
+   ```
+   Returns JSON with `overEngineered`, `clean`, and `speedup` fields.
+
+4. **Check Frontend**:
+   Open http://localhost:5173 — look for green status dots in the header.
 
 ### Expected Behavior
 
-When you submit a query:
-1. **Immediate**: Loading spinner appears
-2. **~0.5s**: Loading message changes
-3. **~2s**: Response received (due to intentional MCP server delay)
-4. **Result**: AI agent's answer displayed
+**Single Query mode**:
+1. **Immediate**: Spinner + live elapsed-time counter
+2. **~1.2s intervals**: Rotating stage messages
+3. **~2-5s**: Response received with duration badge
+4. **Result**: AI agent's answer in a formatted response card
+
+**Compare Both mode**:
+1. **Immediate**: Loading spinner with elapsed counter
+2. **~10-20s**: Both paths complete (sequential execution)
+3. **Result**: Side-by-side cards with timing bars and "Nx faster" speedup badge
 
 ---
 
@@ -534,9 +601,9 @@ After experiencing this demo, you'll understand:
 
 This demo intentionally implements **bad practices** to teach through experience:
 
-1. **Pain Points**: Feel the 2-second delay, see the bloated responses
-2. **Contrast**: Compare bad vs. good side-by-side
-3. **Understanding**: Learn why MCP's micro-server architecture matters
+1. **Pain Points**: Feel the 2-3 second delays, see the bloated responses and verbose tool descriptions
+2. **Live Contrast**: Use "Compare Both" mode to run over-engineered and clean paths side-by-side with real timing data
+3. **Understanding**: Learn why MCP's micro-server architecture matters through measurable speed differences
 4. **Application**: Take these lessons to your own projects
 
 **Remember**: What you're experiencing is what to **AVOID**. Use MCP's micro-server architecture for clean, efficient AI-powered applications!

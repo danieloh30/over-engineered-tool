@@ -4,6 +4,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
 import jakarta.ws.rs.core.MediaType;
+import java.util.Map;
 
 @Path("/agent")
 public class AgentResource {
@@ -13,12 +14,20 @@ public class AgentResource {
 
     @GET
     @Path("/ask")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String ask(@QueryParam("query") String query) {
+    @Produces(MediaType.APPLICATION_JSON)
+    public Map<String, Object> ask(@QueryParam("query") String query) {
         if (query == null || query.isBlank()) {
-            return "Error: Please provide a query parameter";
+            return Map.of("response", "", "durationMs", 0, "error", "Please provide a query parameter");
         }
-        // This call triggers the LLM -> MCP Tool Discovery -> Tool Execution -> Final Response
-        return agent.chat(query);
+
+        long start = System.nanoTime();
+        try {
+            String result = agent.chat(query);
+            long durationMs = (System.nanoTime() - start) / 1_000_000;
+            return Map.of("response", result, "durationMs", durationMs);
+        } catch (Exception e) {
+            long durationMs = (System.nanoTime() - start) / 1_000_000;
+            return Map.of("durationMs", durationMs, "error", e.getMessage());
+        }
     }
 }
